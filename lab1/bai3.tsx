@@ -1,4 +1,4 @@
-// lab1/bai3.tsx
+
 import React from 'react';
 import { View, Alert } from 'react-native';
 import MyButton from '../components/MyButton';

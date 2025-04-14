@@ -1,64 +1,70 @@
-// App.tsx
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DrawerActions, useNavigation } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Button, ScrollView } from 'react-native';
+import { View, Button, Text } from 'react-native';
 
-// Import 10 screens
-import bai1 from './lab1/bai1';
-import bai2 from './lab1/bai2';
-import bai3 from './lab1/bai3';
-import bai4 from './lab1/bai4';
-import bai5 from './lab1/bai5';
-import bai6 from './lab1/bai6';
-import bai7 from './lab1/bai7';
-import bai8 from './lab1/bai8';
-import bai9 from './lab1/bai9';
-import bai10 from './lab1/bai10';
+import Bai1 from './lab1/bai1';
+import Bai2 from './lab1/bai2';
+import Bai3 from './lab1/bai3';
+import Bai4 from './lab1/bai4';
+import Bai5 from './lab1/bai5';
+import Bai6 from './lab1/bai6';
+import Bai7 from './lab1/bai7';
+import Bai8 from './lab1/bai8';
+import Bai9 from './lab1/bai9';
+import Bai10 from './lab1/bai10';
 
-
+const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-function HomeScreen({ navigation }: any) {
-  const screens = [
-    'bai1','bai2','bai3','bai4','bai5','bai6','bai7','bai8','bai9','bai10',
-  ];
+function HomeScreen() {
+  const navigation = useNavigation();
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20 }}>
-      {screens.map((lab1, index) => (
-        <View key={index} style={{ marginVertical: 10 }}>
-          <Button title={`Go to ${lab1}`} onPress={() => navigation.navigate(lab1)} />
-        </View>
-      ))}
-    </ScrollView>
+    
+    <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, paddingLeft: 20, paddingRight: 20 }}>
+  <Text style={{ fontSize: 18, textAlign: 'center', color: 'red', marginBottom: 20, width: '100%' }}>THỰC HÀNH REACT NATIVE</Text>
+  <View style={{ alignItems: 'flex-start', width: '100%' }}>
+    <Button title="☰ LAB1" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+  </View>
+</View>
+  );
+}
+
+function createLabStack(title: string, Component: React.ComponentType<any>) {
+  return () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={title}
+        component={Component}
+        options={({ navigation }) => ({
+          title: title.toUpperCase(),
+          headerLeft: () => (
+            <Button title="☰" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+          ),
+        })}
+      />
+    </Stack.Navigator>
   );
 }
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="bai1" component={bai1} />
-        <Stack.Screen name="bai2" component={bai2} />
-        <Stack.Screen name="bai3" component={bai3} />
-        <Stack.Screen name="bai4" component={bai4} />
-        <Stack.Screen name="bai5" component={bai5} />
-        <Stack.Screen name="bai6" component={bai6} />
-        <Stack.Screen name="bai7" component={bai7} />
-        <Stack.Screen name="bai8" component={bai8} />
-        <Stack.Screen name="bai9" component={bai9} />
-        <Stack.Screen name="bai10" component={bai10} />
-        {/* <Stack.Screen name="Screen3" component={Screen3} />
-        <Stack.Screen name="Screen4" component={Screen4} />
-        <Stack.Screen name="Screen5" component={Screen5} />
-        <Stack.Screen name="Screen6" component={Screen6} />
-        <Stack.Screen name="Screen7" component={Screen7} />
-        <Stack.Screen name="Screen8" component={Screen8} />
-        <Stack.Screen name="Screen9" component={Screen9} />
-        <Stack.Screen name="Screen10" component={Screen10} /> */}
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Bai1" children={createLabStack('Bai1', Bai1)} />
+        <Drawer.Screen name="Bai2" children={createLabStack('Bai2', Bai2)} />
+        <Drawer.Screen name="Bai3" children={createLabStack('Bai3', Bai3)} />
+        <Drawer.Screen name="Bai4" children={createLabStack('Bai4', Bai4)} />
+        <Drawer.Screen name="Bai5" children={createLabStack('Bai5', Bai5)} />
+        <Drawer.Screen name="Bai6" children={createLabStack('Bai6', Bai6)} />
+        <Drawer.Screen name="Bai7" children={createLabStack('Bai7', Bai7)} />
+        <Drawer.Screen name="Bai8" children={createLabStack('Bai8', Bai8)} />
+        <Drawer.Screen name="Bai9" children={createLabStack('Bai9', Bai9)} />
+        <Drawer.Screen name="Bai10" children={createLabStack('Bai10', Bai10)} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
